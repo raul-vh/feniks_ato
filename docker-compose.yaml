@@ -1,0 +1,35 @@
+version: "3.9"
+networks:
+  default:
+    driver: bridge
+  t2_proxy:
+    name: t2_proxy
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.90.0/24
+        
+services:
+  app:
+    build: .
+    container_name: app
+    command: streamlit run app.py
+    restart: always
+    networks:
+      - t2_proxy
+    ports:
+      - 88:8501
+    volumes:
+      - .:/app
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.feniks_ato-rtr.entrypoints=https"
+      - "traefik.http.routers.feniks_ato-rtr.rule=Host(`feniks_ato.$DOMAINNAME_CLOUD_SERVER`)"
+      - "traefik.http.routers.feniks_ato-rtr.tls=true"
+      ## Middlewares
+      # - "traefik.http.routers.portainer-rtr.middlewares=chain-basic-auth@file"
+      - "traefik.http.routers.feniks_ato-rtr.middlewares=chain-no-auth@file"
+      ## HTTP Services
+      - "traefik.http.routers.feniks_ato-rtr.service=feniks_ato-svc"
+      - "traefik.http.services.feniks_ato-svc.loadbalancer.server.port=8501" # 3001 is default port for streamlit

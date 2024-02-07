@@ -1,0 +1,7 @@
+python-dotenv
+streamlit
+pandas
+duckdb
+plotly
+numpy
+streamlit-option-menu
