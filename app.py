@@ -81,6 +81,7 @@ if __name__ == "__main__":
                 # Atleten Tevredenheids Onderzoek Q1 2024
                 Beste Feniks Atleten,\n\n
                 Welkom bij de resultaten van het atleten tevredenheids onderzoek.\n\n
+                **Filter linksboven op trainingsgroep** \n\n
                 ---
                 """)
     voortgang = pd.DataFrame(df_selection["In welke trainingsgroep train jij?"].value_counts())
