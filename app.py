@@ -83,6 +83,11 @@ if __name__ == "__main__":
                 Welkom bij de resultaten van het atleten tevredenheids onderzoek.\n\n
                 ---
                 """)
+    voortgang = pd.DataFrame(df_selection["In welke trainingsgroep train jij?"].value_counts())
+    voortgang = voortgang.rename(columns={"count": "reacties", "In welke trainingsgroep train jij?": "Trainingsgroep"})
+    voortgang["aantal atleten op ledenlijst"] = [pd.NA for i in range(len(voortgang))]
+    voortgang.index.rename("Trainingsgroep", inplace=True)
+    st.write(voortgang)
     selected = option_menu(
         menu_title=None,
         options=["Algemene vragen", "Trainingen Algemeen", "De trainers", "Groepssfeer",
